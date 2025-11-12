@@ -83,3 +83,28 @@
   "currentPage": 0
 }
 ```
+
+## Tampil Merek
+### Endpoint : Post inventrix/merek/list
+
+- for tampil merek
+
+#### Response Body ( success ):
+```json
+{
+  "pesan": "Data merek berhasil diambil",
+  "data": [
+    {
+      "id": 1,
+      "namaMerek": "Panasonic"
+    }
+  ]
+}
+```
+
+#### Response Body ( Faild ):
+```json
+{
+  "pesan": "tidak ada merek"
+}
+```

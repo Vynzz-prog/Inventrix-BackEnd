@@ -28,8 +28,7 @@ public class BarangService {
 
     // 🔹 Cari barang berdasarkan ID
     public Barang findById(Long id) {
-        Optional<Barang> barangOpt = barangRepository.findById(id);
-        return barangOpt.orElse(null);
+        return barangRepository.findById(id).orElse(null);
     }
 
     // 🔹 Simpan perubahan (untuk edit barang)
@@ -37,9 +36,9 @@ public class BarangService {
         return barangRepository.save(barang);
     }
 
-    // 🔹 Ambil semua barang (dengan filter & pagination)
-    public Page<Barang> getListBarang(String search, String merek, int page, int size) {
+    // 🔹 Ambil semua barang (search + filter merekId + pagination)
+    public Page<Barang> getListBarang(String search, Long merekId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return barangRepository.findFiltered(search, merek, pageable);
+        return barangRepository.findFiltered(search, merekId, pageable);
     }
 }
