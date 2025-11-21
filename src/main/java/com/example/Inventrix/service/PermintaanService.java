@@ -19,6 +19,7 @@ public class PermintaanService {
 
     private final PermintaanRepository permintaanRepo;
     private final BarangService barangService;
+    private final LaporanService laporanService;  // <-- WAJIB ADA
 
     // =====================================================
     // OWNER membuat permintaan
@@ -35,9 +36,7 @@ public class PermintaanService {
             throw new RuntimeException("Barang tidak ditemukan id=" + req.getBarangId());
         }
 
-        // ============================
-        // VALIDASI STOK GUDANG
-        // ============================
+        // Validasi stok gudang
         if (barang.getStokGudang() < req.getJumlah()) {
             throw new RuntimeException("Stok gudang tidak mencukupi untuk membuat permintaan");
         }
@@ -92,7 +91,7 @@ public class PermintaanService {
     }
 
     // =====================================================
-    // OWNER menekan "Selesai"
+    // OWNER menekan "Selesai" → stok update + buat laporan
     // =====================================================
     @Transactional
     public PermintaanToko selesaiPermintaan(Long id) {
@@ -122,7 +121,14 @@ public class PermintaanService {
         p.setCompletedAt(LocalDateTime.now());
         p.setStatus(Status.SELESAI);
 
-        return permintaanRepo.save(p);
+        permintaanRepo.save(p);
+
+        // =====================================================
+        // BUAT LAPORAN MUTASI TOKO
+        // =====================================================
+        laporanService.buatLaporanMutasiToko(p);
+
+        return p;
     }
 
     // =====================================================

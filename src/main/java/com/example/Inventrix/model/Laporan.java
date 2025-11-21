@@ -12,7 +12,12 @@ import java.util.List;
 @Table(name = "laporan")
 public class Laporan {
 
-    public enum Jenis { MASUK, HILANG, RUSAK }
+    public enum Jenis {
+        MASUK,
+        HILANG,
+        RUSAK,
+        MUTASI_TOKO   // <-- tambahan
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
